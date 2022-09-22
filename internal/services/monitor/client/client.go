@@ -11,6 +11,7 @@ import (
 	"github.com/hashicorp/go-azure-sdk/resource-manager/insights/2021-04-01/datacollectionrules"
 	diagnosticSettingClient "github.com/hashicorp/go-azure-sdk/resource-manager/insights/2021-05-01-preview/diagnosticsettings"
 	diagnosticCategoryClient "github.com/hashicorp/go-azure-sdk/resource-manager/insights/2021-05-01-preview/diagnosticsettingscategories"
+	subscriptionDiagnosticSettingClient "github.com/hashicorp/go-azure-sdk/resource-manager/insights/2021-05-01-preview/subscriptiondiagnosticsettings"
 	"github.com/hashicorp/go-azure-sdk/resource-manager/insights/2021-08-01/scheduledqueryrules"
 	"github.com/hashicorp/terraform-provider-azurerm/internal/common"
 )
@@ -41,6 +42,7 @@ type Client struct {
 	PrivateLinkScopedResourcesClient     *classic.PrivateLinkScopedResourcesClient
 	ScheduledQueryRulesClient            *classic.ScheduledQueryRulesClient
 	ScheduledQueryRulesV2Client          *scheduledqueryrules.ScheduledQueryRulesClient
+	SubscriptionDiagnosticSettingsClient *subscriptionDiagnosticSettingClient.SubscriptionDiagnosticSettingsClient
 }
 
 func NewClient(o *common.ClientOptions) *Client {
@@ -98,6 +100,9 @@ func NewClient(o *common.ClientOptions) *Client {
 	ScheduledQueryRulesV2Client := scheduledqueryrules.NewScheduledQueryRulesClientWithBaseURI(o.ResourceManagerEndpoint)
 	o.ConfigureClient(&ScheduledQueryRulesV2Client.Client, o.ResourceManagerAuthorizer)
 
+	SubscriptionDiagnosticSettingsClient := subscriptionDiagnosticSettingClient.NewSubscriptionDiagnosticSettingsClientWithBaseURI(o.ResourceManagerEndpoint)
+	o.ConfigureClient(&SubscriptionDiagnosticSettingsClient.Client, o.ResourceManagerAuthorizer)
+
 	return &Client{
 		AADDiagnosticSettingsClient:          &AADDiagnosticSettingsClient,
 		AutoscaleSettingsClient:              &AutoscaleSettingsClient,
@@ -117,5 +122,6 @@ func NewClient(o *common.ClientOptions) *Client {
 		PrivateLinkScopedResourcesClient:     &PrivateLinkScopedResourcesClient,
 		ScheduledQueryRulesClient:            &ScheduledQueryRulesClient,
 		ScheduledQueryRulesV2Client:          &ScheduledQueryRulesV2Client,
+		SubscriptionDiagnosticSettingsClient: &SubscriptionDiagnosticSettingsClient,
 	}
 }
